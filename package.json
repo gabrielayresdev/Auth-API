@@ -7,7 +7,10 @@
     "schema": "src/models/schema.prisma"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx ts-node-dev --transpile-only --no-notify server.ts",
+    "migrate": "npx prisma migrate dev --name init",
+    "keys": "npx ts-node src/config/generateRSAKeyPair.ts"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +26,12 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@types/cors": "^2.8.17"
+    "@types/cors": "^2.8.17",
+    "@types/jsonwebtoken": "^9.0.5",
+    "crypto": "^1.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "uuid": "^9.0.1"
   }
 }
