@@ -13,10 +13,16 @@ class AuthController {
       });
       if (!user)
         return res.status(404).json({ message: "Usuário não encontrado." });
-      const { senha } = req.body;
-      if (Auth.checkPassword(senha, user.hash, user.salt)) {
+      const { password } = req.body;
+      if (Auth.checkPassword(password, user.hash, user.salt)) {
         const token = Auth.generateJWT(user);
-        return res.status(200).json({ token: token });
+        res.cookie("token1", token, {
+          httpOnly: true,
+          sameSite: "strict",
+          secure: true,
+          maxAge: 3600000,
+        });
+        return res.status(200).send();
       } else {
         return res.status(401).json({ message: "Invalid password" });
       }

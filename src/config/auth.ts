@@ -49,13 +49,31 @@ const decodeJWT = (token: any) => {
   return JSON.parse(decodePayload);
 };
 
-const getToken = (request: Request) => {
-  const token = request.get("Authorization");
+const getToken = (req: Request) => {
+  let token = null;
+  // Recuperando token dos cookies
+
+  const cookiesHeader = req.headers.cookie;
+
+  if (cookiesHeader) {
+    const cookies: { [key: string]: string } = cookiesHeader
+      .split(";")
+      .reduce((cookies: any, cookie) => {
+        const [key, value] = cookie.trim().split("=");
+
+        cookies[key] = value;
+
+        return cookies;
+      }, {});
+
+    token = cookies.token1;
+  }
 
   if (!token) {
     return Error;
   } else {
-    return token.split(" ")[1];
+    //return token.split(" ")[1];
+    return token;
   }
 };
 
