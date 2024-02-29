@@ -31,6 +31,17 @@ class AuthController {
     }
   }
 
+   async logout(req, res) => {
+    // Set token to none and expire after 5 seconds
+    res.cookie('token', 'none', {
+        expires: new Date(Date.now() + 5 * 1000),
+        httpOnly: true,
+    })
+    res
+        .status(200)
+        .json({ success: true, message: 'User logged out successfully' })
+}
+
   async getDetails(req: Request, res: Response) {
     try {
       const token = Auth.getToken(req);
