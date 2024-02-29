@@ -1,7 +1,7 @@
 interface UserInterface {
   id: string;
-  firstName: string;
-  secondName: string;
+  name: string;
+  lastName: string;
   email: string;
   cpf: string;
   phone: string;
@@ -9,33 +9,44 @@ interface UserInterface {
   salt: string;
   birthDate: Date;
   cep: string;
-  address: string;
+  state: string;
+  city: string;
+  neighborhood: string;
+  street: string;
+  houseNumber: string;
   addressRef: string | null;
 }
 
 export default function filterUserData(user: UserInterface) {
   const {
-    firstName,
-    secondName,
+    name,
+    lastName,
     email,
     cpf,
     phone,
     salt,
     birthDate,
     cep,
-    address,
+    state,
+    city,
+    neighborhood,
+    street,
+    houseNumber,
     addressRef,
   } = user;
   return {
-    firstName,
-    secondName,
+    name,
+    lastName,
     email,
     cpf,
     phone,
-    salt,
     birthDate,
     cep,
-    address,
+    state,
+    city,
+    neighborhood,
+    street,
+    houseNumber,
     addressRef,
   };
 }

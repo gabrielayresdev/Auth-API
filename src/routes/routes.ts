@@ -6,7 +6,7 @@ import AuthController from "../controllers/AuthController";
 import { userValidator } from "../controllers/validator";
 
 router.post("/login", AuthController.login);
-router.get("/user", AuthController.getDetails);
+router.get("/profile", AuthController.getDetails);
 
 router.post("/user", userValidator, UserController.createUser);
 router.get("/users", UserController.getAllUsers);
