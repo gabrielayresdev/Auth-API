@@ -56,6 +56,7 @@ const getToken = (req: Request) => {
   const cookiesHeader = req.headers.cookie;
 
   if (cookiesHeader) {
+    console.log(cookiesHeader);
     const cookies: { [key: string]: string } = cookiesHeader
       .split(";")
       .reduce((cookies: any, cookie) => {

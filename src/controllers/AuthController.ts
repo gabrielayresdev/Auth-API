@@ -16,12 +16,14 @@ class AuthController {
       const { password } = req.body;
       if (Auth.checkPassword(password, user.hash, user.salt)) {
         const token = Auth.generateJWT(user);
+
         res.cookie("token1", token, {
           httpOnly: true,
           sameSite: "strict",
           secure: true,
           maxAge: 3600000,
         });
+
         return res.status(200).send();
       } else {
         return res.status(401).json({ message: "Invalid password" });
@@ -31,16 +33,20 @@ class AuthController {
     }
   }
 
-   async logout(req, res) => {
+  async logout(req: Request, res: Response) {
     // Set token to none and expire after 5 seconds
-    res.cookie('token', 'none', {
-        expires: new Date(Date.now() + 5 * 1000),
-        httpOnly: true,
-    })
-    res
-        .status(200)
-        .json({ success: true, message: 'User logged out successfully' })
-}
+    res.cookie("token1", "none", {
+      sameSite: "strict",
+      secure: true,
+      expires: new Date(new Date(0)),
+      httpOnly: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "User logged out successfully",
+    });
+  }
 
   async getDetails(req: Request, res: Response) {
     try {
