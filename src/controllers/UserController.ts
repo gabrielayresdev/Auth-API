@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 import { Request, Response } from "express";
-import auth from "../config/auth";
+import Auth from "../config/auth";
 import filtrarDadosDoCliente from "../utils/filterUserData";
 
 class UserController {
@@ -24,7 +24,7 @@ class UserController {
         houseNumber,
         addressRef = null,
       } = req.body;
-      const { hash, salt } = auth.generatePassword(password);
+      const { hash, salt } = Auth.generatePassword(password);
       const data = {
         name,
         lastName,
@@ -77,11 +77,17 @@ class UserController {
 
   async updateUser(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const token = Auth.getToken(req);
+      const payload = Auth.decodeJWT(token);
+
+      // Remove dados que não devem ser usados
+      const { password, email, updateData } = req.body;
+
       const cliente = await prisma.user.update({
-        where: { id: id },
-        data: req.body,
+        where: { id: payload.sub },
+        data: updateData,
       });
+
       res.status(200).json(cliente);
     } catch (error) {
       res.status(500).json({ error });
