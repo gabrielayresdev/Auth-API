@@ -28,11 +28,15 @@
   "dependencies": {
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.5",
+    "@types/nodemailer": "^6.4.14",
     "crypto": "^1.0.1",
     "express-validator": "^7.0.1",
+    "handlebars": "^4.7.8",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.12",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "path": "^0.12.7",
     "uuid": "^9.0.1"
   }
 }

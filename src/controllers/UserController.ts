@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 import { Request, Response } from "express";
 import Auth from "../config/auth";
 import filtrarDadosDoCliente from "../utils/filterUserData";
+import sendEmailValidation from "../utils/sendEmailValidation";
 
 class UserController {
   async createUser(req: Request, res: Response) {
@@ -42,6 +43,8 @@ class UserController {
         hash,
         salt,
       };
+
+      sendEmailValidation(data);
 
       const user = await prisma.user.create({
         data: data,

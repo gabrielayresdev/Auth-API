@@ -3,7 +3,8 @@ node_modules/
     *.sqlite
     *.png
     *.jpg
-    .env
     .idea
     id_rsa_priv.pem
     
+.env
+
