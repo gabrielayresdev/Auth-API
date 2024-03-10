@@ -18,35 +18,6 @@ interface UserInterface {
 }
 
 export default function filterUserData(user: UserInterface) {
-  const {
-    name,
-    lastName,
-    email,
-    cpf,
-    phone,
-    salt,
-    birthDate,
-    cep,
-    state,
-    city,
-    neighborhood,
-    street,
-    houseNumber,
-    addressRef,
-  } = user;
-  return {
-    name,
-    lastName,
-    email,
-    cpf,
-    phone,
-    birthDate,
-    cep,
-    state,
-    city,
-    neighborhood,
-    street,
-    houseNumber,
-    addressRef,
-  };
+  const { hash, salt, ...userData } = user;
+  return userData;
 }

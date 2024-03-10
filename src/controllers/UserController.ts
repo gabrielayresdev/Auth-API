@@ -9,37 +9,11 @@ import sendEmailValidation from "../utils/sendEmailValidation";
 class UserController {
   async createUser(req: Request, res: Response) {
     try {
-      const {
-        name,
-        lastName,
-        email,
-        password,
-        cpf,
-        phone,
-        birthDate,
-        cep,
-        state,
-        city,
-        neighborhood,
-        street,
-        houseNumber,
-        addressRef = null,
-      } = req.body;
+      const { password, birthDate, ...userData } = req.body;
       const { hash, salt } = Auth.generatePassword(password);
       const data = {
-        name,
-        lastName,
-        email,
-        cpf,
-        phone,
+        ...userData,
         birthDate: new Date(birthDate).toISOString(),
-        cep,
-        state,
-        city,
-        neighborhood,
-        street,
-        houseNumber,
-        addressRef,
         hash,
         salt,
       };
