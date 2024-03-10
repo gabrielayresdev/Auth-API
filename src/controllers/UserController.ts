@@ -16,6 +16,7 @@ class UserController {
         birthDate: new Date(birthDate).toISOString(),
         hash,
         salt,
+        emailConfirmed: false,
       };
 
       sendEmailValidation(data);

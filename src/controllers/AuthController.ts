@@ -15,6 +15,12 @@ class AuthController {
         return res.status(404).json({ message: "Usuário não encontrado." });
       const { password } = req.body;
       if (Auth.checkPassword(password, user.hash, user.salt)) {
+        if (!user.emailConfirmed) {
+          return res
+            .status(401)
+            .send("Email não confirmado. Por favor, confirme seu email.");
+        }
+
         const token = Auth.generateJWT(user);
 
         res.cookie("token1", token, {
@@ -56,7 +62,25 @@ class AuthController {
         where: { id: payload.sub },
       });
       if (!user) return res.status(404).json({ message: "User not found" });
+      if (!user.emailConfirmed) {
+        return res
+          .status(401)
+          .send("Email não confirmado. Por favor, confirme seu email.");
+      }
+
       return res.status(200).json(filterUserData(user));
+    } catch (error) {
+      return res.status(500).json({ error: error });
+    }
+  }
+
+  async confirmEmail(req: Request, res: Response) {
+    try {
+      const { token } = req.body;
+      const payload = Auth.decodeJWT(token);
+      const user = await prisma.user.findUnique({
+        where: { id: payload.sub },
+      });
     } catch (error) {
       return res.status(500).json({ error: error });
     }
