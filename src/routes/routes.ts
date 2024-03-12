@@ -8,6 +8,7 @@ import { userValidator } from "../controllers/validator";
 router.post("/login", AuthController.login);
 router.get("/profile", AuthController.getDetails);
 router.post("/logout", AuthController.logout);
+router.post("/confirm/", AuthController.confirmEmail);
 
 router.post("/user", userValidator, UserController.createUser);
 router.get("/users", UserController.getAllUsers);

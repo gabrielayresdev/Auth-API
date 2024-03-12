@@ -78,9 +78,14 @@ class AuthController {
     try {
       const { token } = req.body;
       const payload = Auth.decodeJWT(token);
-      const user = await prisma.user.findUnique({
+      const user = await prisma.user.update({
         where: { id: payload.sub },
+        data: {
+          emailConfirmed: true,
+        },
       });
+      console.log(user);
+      return res.status(200).send("Email confirmado");
     } catch (error) {
       return res.status(500).json({ error: error });
     }

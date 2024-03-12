@@ -10,6 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx ts-node-dev --transpile-only --no-notify server.ts",
     "migrate": "npx prisma migrate dev --name init",
+    "reset": "npx prisma migrate reset",
     "keys": "npx ts-node src/config/generateRSAKeyPair.ts"
   },
   "keywords": [],

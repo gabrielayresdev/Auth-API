@@ -5,7 +5,7 @@ import handlebars from "handlebars";
 
 export default async function sendEmailValidation(user: any) {
   const token = Auth.generateJWT(user);
-  const url = `http://localhost:3000/${token}`;
+  const url = `http://127.0.0.1:5500/token=${token}`;
 
   try {
     //Construindo a mensagem

@@ -19,11 +19,10 @@ class UserController {
         emailConfirmed: false,
       };
 
-      sendEmailValidation(data);
-
       const user = await prisma.user.create({
         data: data,
       });
+      sendEmailValidation(user);
 
       res.status(201).json(filtrarDadosDoCliente(user));
     } catch (error) {

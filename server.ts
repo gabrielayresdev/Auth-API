@@ -7,12 +7,13 @@ configDotenv();
 
 const app = express();
 const port = process.env.PORT;
+const allowedOrigins = ["http://localhost:5173", "http://localhost:19006"];
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:19006",
+    origin: allowedOrigins,
     credentials: true,
     maxAge: 5,
   })
