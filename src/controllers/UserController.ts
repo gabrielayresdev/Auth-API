@@ -71,6 +71,33 @@ class UserController {
     }
   }
 
+  async updatePassword(req: Request, res: Response) {
+    try {
+      const token = Auth.getToken(req);
+      const payload = Auth.decodeJWT(token);
+
+      // Remove dados que não devem ser usados
+      const { password, newPassword } = req.body;
+      const user = await prisma.user.findUnique({
+        where: { id: payload },
+      });
+      if (!user)
+        return res.status(404).json({ message: "Usuário não encontrado." });
+
+      if (Auth.checkPassword(password, user.hash, user.salt)) {
+        const { hash, salt } = Auth.generatePassword(newPassword);
+        await prisma.user.update({
+          where: { id: payload.sub },
+          data: { hash, salt },
+        });
+
+        res.status(200).send("Senha redefinida com sucesso!");
+      } else return res.status(404).json({ message: "Senha inválida" });
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  }
+
   async deleteUser(req: Request, res: Response) {
     try {
       const { id } = req.params;
