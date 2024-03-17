@@ -3,6 +3,7 @@ import Auth from "../config/auth";
 
 import { PrismaClient } from "@prisma/client";
 import filterUserData from "../utils/filterUserData";
+import sendEmailValidation from "../utils/sendEmailAuthentication";
 const prisma = new PrismaClient();
 
 class AuthController {
@@ -86,6 +87,36 @@ class AuthController {
       });
       console.log(user);
       return res.status(200).send("Email confirmado");
+    } catch (error) {
+      return res.status(500).json({ error: error });
+    }
+  }
+
+  async forgotPassword(req: Request, res: Response) {
+    try {
+      const { email } = req.body;
+
+      const user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const token = Auth.generateJWT(user, "1h");
+
+      sendEmailValidation(user, token, "reset");
+
+      await prisma.user.update({
+        where: {
+          email: user.email,
+        },
+        data: {
+          passwordResetToken: token,
+        },
+      });
+
+      return res.status(200).send("Email enviado");
     } catch (error) {
       return res.status(500).json({ error: error });
     }

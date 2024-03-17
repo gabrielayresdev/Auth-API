@@ -1,11 +1,12 @@
 import Auth from "../config/auth";
-import path from "path";
 import { transport } from "../config/mailer";
-import handlebars from "handlebars";
 
-export default async function sendEmailValidation(user: any) {
-  const token = Auth.generateJWT(user);
-  const url = `${process.env.CONFIRMATION_URL}/token=${token}`;
+export default async function sendEmailAuthentication(
+  user: any,
+  token: string,
+  path: string = ""
+) {
+  const url = `${process.env.CONFIRMATION_URL}/${path}/token=${token}`;
 
   try {
     //Construindo a mensagem

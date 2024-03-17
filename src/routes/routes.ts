@@ -9,6 +9,7 @@ router.post("/login", AuthController.login);
 router.get("/profile", AuthController.getDetails);
 router.post("/logout", AuthController.logout);
 router.post("/confirm", AuthController.confirmEmail);
+router.post("/passwordReset", AuthController.forgotPassword);
 
 router.post("/user", userValidator, UserController.createUser);
 router.get("/users", UserController.getAllUsers);

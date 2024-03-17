@@ -21,7 +21,7 @@ const generatePassword = (password: string) => {
   };
 };
 
-const generateJWT = (user: any) => {
+const generateJWT = (user: any, time?: string) => {
   const sub = user.id;
   const payload = {
     sub: sub,
@@ -29,7 +29,7 @@ const generateJWT = (user: any) => {
   };
 
   const jwt = jsonwebtoken.sign(payload, PRIV_KEY, {
-    expiresIn: "7d",
+    expiresIn: time ? time : "7d",
     algorithm: "RS256",
   });
   return jwt;
