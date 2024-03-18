@@ -121,6 +121,36 @@ class AuthController {
       return res.status(500).json({ error: error });
     }
   }
+
+  async resetPassword(req: Request, res: Response) {
+    try {
+      const { token, password } = req.body;
+      const payload = Auth.decodeJWT(token);
+      const user = await prisma.user.findUnique({
+        where: { id: payload.sub },
+      });
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      const valid = user.passwordResetToken === token;
+      if (!valid)
+        return res.status(401).json({ message: "Invalid Token or expired" });
+
+      const { hash, salt } = Auth.generatePassword(password);
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          hash,
+          salt,
+        },
+      });
+
+      return res.status(200).send("Email confirmado");
+    } catch (error) {
+      return res.status(500).json({ error: error });
+    }
+  }
 }
 
 export default new AuthController();
